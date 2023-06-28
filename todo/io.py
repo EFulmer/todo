@@ -60,9 +60,47 @@ def read_items(file_name: str) -> Generator[ToDoItem, None, None]:
             )
 
 
-def show_all(file_name: str):
+def show_all(file_name: str) -> Generator[ToDoItem, None, None]:
+    """Yield all items from the to-do list file specified.
+
+    Args:
+        file_name: name of the CSV file with the to-do list items.
+
+    Raises:
+        FileNotFoundError: if file_name does not exist.
+
+    Yields:
+        ToDoItems from the file, in order.
+    """
     yield from (x for x in read_items(file_name))
 
 
-def show_non_complete(file_name: str):
+def show_non_complete(file_name: str) -> Generator[ToDoItem, None, None]:
+    """Yield outstanding items from the to-do list file specified.
+
+    Args:
+        file_name: name of the CSV file with the to-do list items.
+
+    Raises:
+        FileNotFoundError: if file_name does not exist.
+
+    Yields:
+        Not-yet-completed ToDoItems from the file, in order.
+    """
     yield from (x for x in read_items(file_name) if not x.complete)
+
+
+def add_item(file_name: str, task: str):
+    """Add an item to the to-do list.
+
+    Args:
+        file_name: name of the CSV file containing the to-do list.
+
+    Side Effects:
+        Writes `task` to the to-do list, set as not complete and with a
+        date_created of today.
+    """
+    item = ToDoItem(_id=..., task=task)
+    with open(file_name, mode='a') as f:
+        writer = csv.DictWriter(f, fieldnames=FIELD_NAMES)
+        writer.writerow(**item)
