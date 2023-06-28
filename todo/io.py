@@ -12,7 +12,7 @@ class ToDoItem:
     complete: bool
 
     def __str__(self):
-        return f'{self._id}. {self.name}'
+        return f"{self._id}. {self.name}"
 
 
 def read_items(file_name: str) -> Generator[ToDoItem, None, None]:
@@ -28,7 +28,7 @@ def read_items(file_name: str) -> Generator[ToDoItem, None, None]:
         ToDoItems from the file, in order.
     """
     if not pathlib.Path(file_name).exists():
-        raise FileNotFoundError(f'{file_name} does not exist')
+        raise FileNotFoundError(f"{file_name} does not exist")
     with open(file_name) as f:
         reader = csv.reader(f)
         for row in reader:
